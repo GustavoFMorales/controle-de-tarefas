@@ -1,5 +1,5 @@
 import request from "supertest";
-import { expect } from "chai";
+import { assert, expect } from "chai";
 
 describe("Tarefas", () => {
   describe("POST /tarefas", () => {
@@ -36,20 +36,39 @@ describe("Tarefas", () => {
     });
   });
   describe("GET /tarefas", () => {
-     it("Deve retornar 200 quando solicitar todas as tarefas", async () =>{
-         const response = await request("http://localhost:3000")
-            .get('/tarefas')
-        expect(response.status).to.equal(200);
-        expect(response.body[0].ID).to.equal(1);
-        expect(response.body[0].titulo).to.equal('Estudar teste api rest');
-
-     })
+    it("Deve retornar 200 quando solicitar todas as tarefas", async () => {
+      const response = await request("http://localhost:3000").get("/tarefas");
+      expect(response.status).to.equal(200);
+      expect(response.body[0].ID).to.equal(1);
+      expect(response.body[0].titulo).to.equal("Estudar teste api rest");
+    });
   });
-  describe('PATCH /tarefas', () => {
-    it('Deve retornar 200 ao concluir a tarefa', async () => {
-        const response = await request('http://localhost:3000')
-            .patch('/tarefas/7/concluir')
-        expect(response.status).to.equal(200);
-    })
-  })
+  describe("PATCH /tarefas", () => {
+    it("Deve retornar 200 ao concluir a tarefa", async () => {
+      const response = await request("http://localhost:3000").patch(
+        "/tarefas/33/concluir",
+      );
+      expect(response.status).to.equal(200);
+    });
+    it("Deve retornar 400 quando a tarefa não for encontrada", async () => {
+      const response = await request("http://localhost:3000").patch(
+        "/tarefas/89/concluir",
+      );
+      expect(response.status).to.equal(400);
+    });
+  });
+  describe("DELETE /tarefas", () => {
+    it("Deve retornar 204 quando a tarefa for removida com sucesso", async () => {
+      const response = await request("http://localhost:3000").delete(
+        "/tarefas/32",
+      );
+      expect(response.status).to.equal(204);
+    });
+    it("Deve retornar 404 quando a tarefa não for encontarda", async () => {
+      const response = await request("http://localhost:3000").delete(
+        "/tarefas/89",
+      );
+      expect(response.status).to.equal(404);
+    });
+  });
 });
