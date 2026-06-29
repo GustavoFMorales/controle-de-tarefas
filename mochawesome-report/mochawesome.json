@@ -1,14 +1,14 @@
 {
   "stats": {
-    "suites": 3,
-    "tests": 4,
-    "passes": 4,
+    "suites": 4,
+    "tests": 5,
+    "passes": 5,
     "pending": 0,
     "failures": 0,
-    "start": "2026-06-29T09:27:58.380Z",
-    "end": "2026-06-29T09:27:58.428Z",
-    "duration": 48,
-    "testsRegistered": 4,
+    "start": "2026-06-29T10:17:23.724Z",
+    "end": "2026-06-29T10:17:23.774Z",
+    "duration": 50,
+    "testsRegistered": 5,
     "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "a7c0eb8e-97db-4a17-b347-9cd9d30a4657",
+      "uuid": "f22d9f92-b07d-4c7c-a45d-ba7f8ac70ca4",
       "title": "",
       "fullFile": "C:\\Users\\gusta\\OneDrive\\Área de Trabalho\\Meus Projetos\\Pós-graduação em Automação de Testes de Software\\Programacao_para_automacao_de_teste\\controle-de-tarefas\\test\\tarefas.test.js",
       "file": "\\test\\tarefas.test.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "2a161d00-7112-4a4b-9e04-67600945c228",
+          "uuid": "c716e2f6-7ea4-4b04-bb16-1c8d7c9589d1",
           "title": "Tarefas",
           "fullFile": "C:\\Users\\gusta\\OneDrive\\Área de Trabalho\\Meus Projetos\\Pós-graduação em Automação de Testes de Software\\Programacao_para_automacao_de_teste\\controle-de-tarefas\\test\\tarefas.test.js",
           "file": "\\test\\tarefas.test.js",
@@ -36,7 +36,7 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "b87a53ec-3bb6-43e9-a10a-f8f5c7854ec8",
+              "uuid": "2348b480-d22f-4910-8814-a8f75d64195e",
               "title": "POST /tarefas",
               "fullFile": "C:\\Users\\gusta\\OneDrive\\Área de Trabalho\\Meus Projetos\\Pós-graduação em Automação de Testes de Software\\Programacao_para_automacao_de_teste\\controle-de-tarefas\\test\\tarefas.test.js",
               "file": "\\test\\tarefas.test.js",
@@ -47,7 +47,7 @@
                   "title": "Deve retornar 201 quando a tarefa for cadastrada com sucesso",
                   "fullTitle": "Tarefas POST /tarefas Deve retornar 201 quando a tarefa for cadastrada com sucesso",
                   "timedOut": false,
-                  "duration": 30,
+                  "duration": 23,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -56,8 +56,8 @@
                   "context": null,
                   "code": "const response = await request(\"http://localhost:3000\")\n  .post(\"/tarefas\")\n  .set(\"Content-Type\", \"application/json\")\n  .send({\n    titulo: \"Estudar Arquitetura de software\",\n    prioridade: \"media\",\n  });\nexpect(response.status).to.equal(201);",
                   "err": {},
-                  "uuid": "b1c7d6df-1122-48eb-b7e4-cb1b02d71959",
-                  "parentUUID": "b87a53ec-3bb6-43e9-a10a-f8f5c7854ec8",
+                  "uuid": "b31d3376-26ae-4e49-baee-2f6ef823e2d4",
+                  "parentUUID": "2348b480-d22f-4910-8814-a8f75d64195e",
                   "isHook": false,
                   "skipped": false
                 },
@@ -65,7 +65,7 @@
                   "title": "Deve retornar 400 quando o titulo não for preenchido",
                   "fullTitle": "Tarefas POST /tarefas Deve retornar 400 quando o titulo não for preenchido",
                   "timedOut": false,
-                  "duration": 3,
+                  "duration": 4,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -74,8 +74,8 @@
                   "context": null,
                   "code": "const response = await request(\"http://localhost:3000\")\n  .post(\"/tarefas\")\n  .set(\"Content-Type\", \"application/json\")\n  .send({\n    prioridade: \"Alta\",\n  });\nexpect(response.status).to.equal(400);\nexpect(response.body.erro).to.equal(\"Título é obrigatório\");",
                   "err": {},
-                  "uuid": "d71e2fd6-577f-4029-aa59-895da04ab1bd",
-                  "parentUUID": "b87a53ec-3bb6-43e9-a10a-f8f5c7854ec8",
+                  "uuid": "def9811b-e079-45d2-9168-b9494b28257a",
+                  "parentUUID": "2348b480-d22f-4910-8814-a8f75d64195e",
                   "isHook": false,
                   "skipped": false
                 },
@@ -83,7 +83,7 @@
                   "title": "Deve retornar 201 quando a tarefa for cadastrada com sucesso sem a informação de prioridade",
                   "fullTitle": "Tarefas POST /tarefas Deve retornar 201 quando a tarefa for cadastrada com sucesso sem a informação de prioridade",
                   "timedOut": false,
-                  "duration": 5,
+                  "duration": 6,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -92,28 +92,28 @@
                   "context": null,
                   "code": "const response = await request(\"http://localhost:3000\")\n  .post(\"/tarefas\")\n  .set(\"Content-Type\", \"application/json\")\n  .send({\n    titulo: \"Estudar Ingles\",\n  });\nexpect(response.status).to.equal(201);\nexpect(response.body.titulo).to.equal(\"Estudar Ingles\");\nexpect(response.body.prioridade).to.equal(\"baixa\");",
                   "err": {},
-                  "uuid": "0647c26d-97fa-4233-b5ea-09d01e79cb25",
-                  "parentUUID": "b87a53ec-3bb6-43e9-a10a-f8f5c7854ec8",
+                  "uuid": "a25dfcef-931b-41eb-9bf4-3916b8f379b1",
+                  "parentUUID": "2348b480-d22f-4910-8814-a8f75d64195e",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "b1c7d6df-1122-48eb-b7e4-cb1b02d71959",
-                "d71e2fd6-577f-4029-aa59-895da04ab1bd",
-                "0647c26d-97fa-4233-b5ea-09d01e79cb25"
+                "b31d3376-26ae-4e49-baee-2f6ef823e2d4",
+                "def9811b-e079-45d2-9168-b9494b28257a",
+                "a25dfcef-931b-41eb-9bf4-3916b8f379b1"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 38,
+              "duration": 33,
               "root": false,
               "rootEmpty": false,
               "_timeout": 2000
             },
             {
-              "uuid": "5cc3c8b3-d6bb-44ee-9c38-4caaa2a20019",
+              "uuid": "c54491f5-b874-4941-bb44-1acbad6afa6e",
               "title": "GET /tarefas",
               "fullFile": "C:\\Users\\gusta\\OneDrive\\Área de Trabalho\\Meus Projetos\\Pós-graduação em Automação de Testes de Software\\Programacao_para_automacao_de_teste\\controle-de-tarefas\\test\\tarefas.test.js",
               "file": "\\test\\tarefas.test.js",
@@ -124,7 +124,7 @@
                   "title": "Deve retornar 200 quando solicitar todas as tarefas",
                   "fullTitle": "Tarefas GET /tarefas Deve retornar 200 quando solicitar todas as tarefas",
                   "timedOut": false,
-                  "duration": 3,
+                  "duration": 4,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -133,20 +133,59 @@
                   "context": null,
                   "code": "const response = await request(\"http://localhost:3000\")\n   .get('/tarefas')\n        expect(response.status).to.equal(200);\n        expect(response.body[0].ID).to.equal(1);\n        expect(response.body[0].titulo).to.equal('Estudar teste api rest');",
                   "err": {},
-                  "uuid": "cc350de3-1df1-410c-97a7-e02d7d75f43f",
-                  "parentUUID": "5cc3c8b3-d6bb-44ee-9c38-4caaa2a20019",
+                  "uuid": "fbd2c59d-8494-4a1d-88d9-9934c91fa79a",
+                  "parentUUID": "c54491f5-b874-4941-bb44-1acbad6afa6e",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "cc350de3-1df1-410c-97a7-e02d7d75f43f"
+                "fbd2c59d-8494-4a1d-88d9-9934c91fa79a"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 3,
+              "duration": 4,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "edb4e575-70a8-4530-910c-3bff3cd23e60",
+              "title": "PATCH /tarefas",
+              "fullFile": "C:\\Users\\gusta\\OneDrive\\Área de Trabalho\\Meus Projetos\\Pós-graduação em Automação de Testes de Software\\Programacao_para_automacao_de_teste\\controle-de-tarefas\\test\\tarefas.test.js",
+              "file": "\\test\\tarefas.test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "Deve retornar 200 ao concluir a tarefa",
+                  "fullTitle": "Tarefas PATCH /tarefas Deve retornar 200 ao concluir a tarefa",
+                  "timedOut": false,
+                  "duration": 6,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const response = await request('http://localhost:3000')\n    .patch('/tarefas/7/concluir')\nexpect(response.status).to.equal(200);",
+                  "err": {},
+                  "uuid": "9186d137-21ff-40f2-871e-7ec39021a861",
+                  "parentUUID": "edb4e575-70a8-4530-910c-3bff3cd23e60",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "9186d137-21ff-40f2-871e-7ec39021a861"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 6,
               "root": false,
               "rootEmpty": false,
               "_timeout": 2000

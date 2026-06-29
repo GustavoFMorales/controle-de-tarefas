@@ -45,4 +45,11 @@ describe("Tarefas", () => {
 
      })
   });
+  describe('PATCH /tarefas', () => {
+    it('Deve retornar 200 ao concluir a tarefa', async () => {
+        const response = await request('http://localhost:3000')
+            .patch('/tarefas/7/concluir')
+        expect(response.status).to.equal(200);
+    })
+  })
 });
