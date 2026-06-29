@@ -35,4 +35,14 @@ describe("Tarefas", () => {
       expect(response.body.prioridade).to.equal("baixa");
     });
   });
+  describe("GET /tarefas", () => {
+     it("Deve retornar 200 quando solicitar todas as tarefas", async () =>{
+         const response = await request("http://localhost:3000")
+            .get('/tarefas')
+        expect(response.status).to.equal(200);
+        expect(response.body[0].ID).to.equal(1);
+        expect(response.body[0].titulo).to.equal('Estudar teste api rest');
+
+     })
+  });
 });
