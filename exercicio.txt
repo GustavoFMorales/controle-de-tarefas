@@ -1,0 +1,98 @@
+Exercício: API de Tarefas com MySQL (XAMPP)
+Objetivo
+Construir uma API REST de tarefas que persiste dados em um banco MySQL real (via XAMPP), com testes unitários e testes de API cobrindo toda a lógica assíncrona.
+
+Parte 0 — Preparação do ambiente
+
+Abra o painel de controle do XAMPP e inicie o serviço MySQL.
+Acesse o phpMyAdmin (http://localhost/phpmyadmin).
+Crie dois bancos de dados:
+
+api_tarefas — para uso real da aplicação
+api_tarefas_test — exclusivo para os testes automatizados
+
+
+Em cada um dos dois bancos, crie uma tabela tarefas com as colunas:
+
+id — inteiro, chave primária, auto incremento
+titulo — texto, obrigatório
+prioridade — deve aceitar apenas os valores baixa, media ou alta, com padrão media
+concluida — booleano, padrão falso
+
+
+
+Por que dois bancos? Se os testes rodassem contra o banco real, eles inseririam e removeriam dados de produção a cada execução, contaminando informações reais. Separar os ambientes é prática padrão de mercado.
+
+Parte 1 — Estrutura do projeto
+Organize as pastas assim:
+api-tarefas-mysql/
+├── src/
+│   ├── config/database.js
+│   ├── services/TarefaService.js
+│   ├── routes/tarefasRoutes.js
+│   ├── app.js
+│   └── server.js
+├── test/
+│   ├── unit/TarefaService.test.js
+│   └── api/tarefas.test.js
+├── .env
+└── package.json
+.env deve guardar as credenciais de conexão com o banco (host, usuário, senha, nome do banco) — nunca escreva isso direto no código. Pesquise sobre a biblioteca dotenv para carregar essas variáveis.
+config/database.js deve centralizar a criação da conexão/pool com o MySQL, usando a biblioteca mysql2. Pesquise a diferença entre uma conexão única e um "pool de conexões" — para uma API que recebe múltiplas requisições simultâneas, o pool é a escolha correta.
+
+Parte 2 — Regras de negócio da classe TarefaService
+A classe deve ter os métodos abaixo. Diferença importante em relação ao exercício anterior: como agora cada método acessa o banco de dados, todos devem ser declarados como async e usar await nas operações de banco.
+async criar(titulo, prioridade)
+
+título obrigatório (vazio ou só espaços deve lançar erro)
+prioridade deve ser baixa, media ou alta; se omitida, usar media
+deve inserir a tarefa no banco e retornar o registro criado (incluindo o id gerado pelo MySQL)
+lança Error('Título é obrigatório') ou Error('Prioridade inválida') conforme o caso
+
+async listar(concluida)
+
+sem argumento, retorna todas as tarefas do banco
+com true ou false, retorna apenas as tarefas com aquele status
+pesquise como montar a query SQL condicionalmente (com e sem cláusula WHERE) sem abrir brecha para SQL injection — use prepared statements (parâmetros ? na query, nunca concatenação de string)
+
+async concluir(id)
+
+atualiza o campo concluida para verdadeiro
+lança Error('Tarefa não encontrada') se nenhuma linha for afetada pelo UPDATE
+
+async remover(id)
+
+remove a linha da tabela
+lança Error('Tarefa não encontrada') se nenhuma linha for afetada pelo DELETE
+
+
+Parte 3 — Endpoints HTTP (Express)
+Mesma tabela de antes, mas agora as rotas precisam lidar com promessas (usar async/await nos handlers também):
+MétodoRotaStatus sucessoStatus erroPOST/tarefas201400GET/tarefas (aceita ?concluida=true/false)200—PATCH/tarefas/:id/concluir200404DELETE/tarefas/:id204404
+Lembre-se de capturar erros assíncronos com try/catch dentro de cada handler — diferente de funções síncronas, um throw dentro de uma função async não é capturado automaticamente pelo Express.
+
+Parte 4 — Testes unitários (test/unit/TarefaService.test.js)
+Testam a classe TarefaService direto, mas agora contra o banco api_tarefas_test.
+Use beforeEach para limpar a tabela antes de cada teste (DELETE FROM tarefas ou TRUNCATE), garantindo que cada teste comece com o banco vazio e não dependa de execuções anteriores. Pesquise também sobre afterEach ou um after global para encerrar a conexão com o banco ao final da suíte (sem isso, o Mocha pode travar esperando a conexão fechar).
+Casos a cobrir (todos async, usando await nas chamadas):
+
+criação com sucesso, retornando objeto com id válido gerado pelo banco
+prioridade padrão quando omitida
+erro de título vazio / só espaços
+erro de prioridade inválida
+listar sem filtro retorna todas
+listar com filtro true e com filtro false
+concluir com sucesso e erro de id inexistente
+remover com sucesso e erro de id inexistente
+
+
+Parte 5 — Testes de API (test/api/tarefas.test.js)
+Usam Supertest contra o app, e o app deve estar configurado para apontar para o banco de testes durante a execução dos testes. Pesquise como fazer essa configuração condicional — uma abordagem comum é usar uma variável de ambiente (NODE_ENV=test) para escolher qual .env carregar.
+Mesma cobertura de casos da parte 4, mas validando status HTTP e corpo da resposta JSON.
+
+Desafios extras (opcional, para ir além)
+
+Pesquise sobre transações (BEGIN, COMMIT, ROLLBACK) — não é necessário aqui, mas é o próximo conceito natural quando uma operação envolve múltiplas tabelas.
+Pesquise o que é migration (ex: com a lib knex ou db-migrate) — uma forma de versionar a estrutura do banco junto com o código, em vez de criar a tabela manualmente pelo phpMyAdmin.
+Pesquise sobre mock de banco de dados em testes unitários (ex: lib sinon simulando o mysql2) como alternativa a usar um banco de teste real — é uma técnica usada quando se quer testes unitários mais rápidos e isolados, reservando o banco real só para os testes de API.
+
